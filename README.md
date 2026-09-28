@@ -110,28 +110,30 @@ VITE_N8N_WEBHOOK_URL=""
 
 ---
 
-## 5. Where to Connect the n8n Webhook
+## 5. n8n AI Chatbot & Webhook Integration
 
-1. Open your n8n workspace and create a workflow triggered by a **Webhook Node** (`POST` method).
-2. Set the `VITE_N8N_WEBHOOK_URL` in `.env`:
-   ```env
-   VITE_N8N_WEBHOOK_URL="https://n8n.your-domain.com/webhook/postal-verify"
-   ```
-3. The application will automatically dispatch the following JSON payload on verification:
-   ```json
-   {
-     "address": "Flat 3B, Sector 6, MVP Colony, Visakhapatnam, Andhra Pradesh 530017",
-     "fullName": "Dr. K. Srinivas Rao",
-     "streetLocality": "Sector 6, MVP Colony",
-     "city": "Visakhapatnam",
-     "district": "Visakhapatnam",
-     "state": "Andhra Pradesh",
-     "pin": "530017",
-     "source": "PostalAI_Web_Client",
-     "timestamp": "2026-09-28T08:15:00.000Z"
-   }
-   ```
-4. If the webhook is unreachable, `agentService.ts` automatically falls back to the local verification engine without disrupting the user experience.
+The application includes a real-time **PostalAI Assistant Chatbot** powered by your n8n AI Cloud webhook:
+
+- **Webhook Endpoint:**
+  `https://roja0902.app.n8n.cloud/webhook/dd564b0c-2213-4c63-aed9-40d2a9338199/chat`
+
+- **Features in the UI:**
+  - Floating chat bubble in the bottom-right corner with live indicator.
+  - Header **"AI Chat"** quick-access button.
+  - Sidebar **"n8n AI Chatbot"** item.
+  - Session persistence across messages.
+  - Quick postal prompt chips (*Check MVP Colony PIN*, *Why 530018 is Mismatch*, *Indiranagar Post Office*).
+  - Contextual fallback engine providing accurate postal details if the n8n webhook workflow is temporarily paused or in test mode.
+
+- **Payload Dispatched to n8n:**
+  ```json
+  {
+    "chatInput": "What is the correct PIN code for MVP Colony in Visakhapatnam?",
+    "message": "What is the correct PIN code for MVP Colony in Visakhapatnam?",
+    "sessionId": "session-1727512800000-xyz",
+    "timestamp": "2026-09-28T09:40:00.000Z"
+  }
+  ```
 
 ---
 

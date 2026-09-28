@@ -15,12 +15,14 @@ import { BulkVerification } from './components/bulk/BulkVerification';
 import { VerificationHistory } from './components/history/VerificationHistory';
 import { AboutPage } from './components/about/AboutPage';
 import { ResultDetailModal } from './components/verify/ResultDetailModal';
+import { N8NChatbot } from './components/chat/N8NChatbot';
 import { VerificationHistoryItem, VerificationResult } from './types/postal';
 import { storageService } from './services/storageService';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [selectedResult, setSelectedResult] = useState<VerificationResult | null>(null);
   const [activePresetId, setActivePresetId] = useState<string>('');
   
@@ -80,6 +82,7 @@ export default function App() {
         <Sidebar
           currentPage={currentPage}
           onNavigate={handleNavigate}
+          onOpenChat={() => setIsChatOpen(true)}
           isOpenMobile={isMobileMenuOpen}
           onCloseMobile={() => setIsMobileMenuOpen(false)}
           historyCount={history.length}
@@ -91,6 +94,7 @@ export default function App() {
             currentPageTitle={getPageTitle(currentPage)}
             onNavigate={handleNavigate}
             onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onOpenChat={() => setIsChatOpen(true)}
             historyCount={history.length}
           />
 
@@ -129,7 +133,9 @@ export default function App() {
             )}
 
             {currentPage === 'about' && (
-              <AboutPage />
+              <AboutPage
+                onOpenChat={() => setIsChatOpen(true)}
+              />
             )}
           </main>
 
@@ -142,9 +148,9 @@ export default function App() {
               <div className="flex items-center gap-4 text-slate-400">
                 <span>Demo Data Mode Enabled</span>
                 <span>•</span>
-                <span>Vercel Deployable</span>
+                <span>n8n AI Agent Connected</span>
                 <span>•</span>
-                <span>Modular Service Layer</span>
+                <span>Vercel Deployable</span>
               </div>
             </div>
           </footer>
@@ -155,6 +161,12 @@ export default function App() {
       <ResultDetailModal
         result={selectedResult}
         onClose={() => setSelectedResult(null)}
+      />
+
+      {/* Live n8n AI Postal Chatbot */}
+      <N8NChatbot
+        isOpen={isChatOpen}
+        onToggle={() => setIsChatOpen(!isChatOpen)}
       />
     </div>
   );

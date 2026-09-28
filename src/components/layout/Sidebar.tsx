@@ -15,6 +15,7 @@ import {
 interface SidebarProps {
   currentPage: string;
   onNavigate: (page: string) => void;
+  onOpenChat: () => void;
   isOpenMobile: boolean;
   onCloseMobile: () => void;
   historyCount: number;
@@ -23,6 +24,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({
   currentPage,
   onNavigate,
+  onOpenChat,
   isOpenMobile,
   onCloseMobile,
   historyCount
@@ -155,6 +157,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </button>
             );
           })}
+
+          {/* Dedicated n8n AI Chat Agent item */}
+          <div className="pt-2">
+            <button
+              onClick={() => {
+                onOpenChat();
+                onCloseMobile();
+              }}
+              className="w-full text-left flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all cursor-pointer bg-gradient-to-r from-blue-900/60 to-slate-800 border border-cyan-500/30 text-cyan-200 hover:from-blue-800 hover:to-slate-700 shadow-xs"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                <span className="truncate font-semibold text-white">n8n AI Chatbot</span>
+              </div>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-cyan-400/20 text-cyan-200 border border-cyan-400/40">
+                Agent
+              </span>
+            </button>
+          </div>
         </div>
 
         {/* Architecture & Engine Status Footer */}

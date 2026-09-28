@@ -19,9 +19,13 @@ import {
 import { agentService } from '../../services/agentService';
 import { postalService } from '../../services/postalService';
 
-export const AboutPage: React.FC = () => {
-  const isN8nConfigured = agentService.isN8NConfigured();
-  const n8nUrl = agentService.getN8NUrl();
+interface AboutPageProps {
+  onOpenChat?: () => void;
+}
+
+export const AboutPage: React.FC<AboutPageProps> = ({ onOpenChat }) => {
+  const isN8nConfigured = true; // Webhook is now explicitly configured
+  const n8nUrl = "https://roja0902.app.n8n.cloud/webhook/dd564b0c-2213-4c63-aed9-40d2a9338199/chat";
   const [testPayloadVisible, setTestPayloadVisible] = useState(false);
 
   const samplePayload = {
@@ -242,25 +246,32 @@ export const AboutPage: React.FC = () => {
 
         <div className="space-y-3 text-xs text-slate-600">
           <p>
-            To route all postal verification requests through an <strong>n8n AI Workflow</strong>:
+            The project is integrated with your <strong>n8n AI Cloud Chat Webhook</strong>:
           </p>
 
-          <div className="p-3 bg-slate-900 text-slate-100 rounded-lg font-mono text-[11px] overflow-x-auto">
-            # Add to .env or Vercel Environment Variables<br />
-            VITE_N8N_WEBHOOK_URL="https://your-n8n-instance.com/webhook/postal-verify"
+          <div className="p-3 bg-slate-900 text-cyan-200 rounded-lg font-mono text-[11px] overflow-x-auto select-all">
+            {n8nUrl}
           </div>
 
-          <p>
-            When <code className="bg-slate-100 px-1.5 py-0.5 rounded text-blue-900 font-mono">VITE_N8N_WEBHOOK_URL</code> is defined, <code className="bg-slate-100 px-1.5 py-0.5 rounded text-blue-900 font-mono">agentService.ts</code> dispatches an HTTP POST with the structured address payload. If unset or if a network error occurs, it falls back seamlessly to the high-fidelity local verification engine.
-          </p>
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            {onOpenChat && (
+              <button
+                onClick={onOpenChat}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer"
+              >
+                <Bot size={15} className="text-cyan-300" />
+                <span>Launch n8n AI Chatbot</span>
+              </button>
+            )}
 
-          <button
-            onClick={() => setTestPayloadVisible(!testPayloadVisible)}
-            className="text-blue-700 hover:text-blue-900 font-semibold cursor-pointer flex items-center gap-1 mt-2"
-          >
-            <Code2 size={13} />
-            <span>{testPayloadVisible ? 'Hide sample webhook payload' : 'Inspect sample webhook JSON payload'}</span>
-          </button>
+            <button
+              onClick={() => setTestPayloadVisible(!testPayloadVisible)}
+              className="text-blue-700 hover:text-blue-900 font-semibold cursor-pointer flex items-center gap-1 text-xs"
+            >
+              <Code2 size={13} />
+              <span>{testPayloadVisible ? 'Hide sample webhook payload' : 'Inspect sample webhook JSON payload'}</span>
+            </button>
+          </div>
 
           {testPayloadVisible && (
             <pre className="p-3 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] text-slate-800 overflow-x-auto">

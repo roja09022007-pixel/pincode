@@ -6,6 +6,7 @@ interface HeaderProps {
   currentPageTitle: string;
   onNavigate: (page: string) => void;
   onToggleMobileMenu: () => void;
+  onOpenChat: () => void;
   historyCount: number;
 }
 
@@ -13,6 +14,7 @@ export const Header: React.FC<HeaderProps> = ({
   currentPageTitle,
   onNavigate,
   onToggleMobileMenu,
+  onOpenChat,
   historyCount
 }) => {
   return (
@@ -55,8 +57,20 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Right: Quick actions & user info */}
-        <div className="flex items-center gap-2.5 sm:gap-3.5">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <DemoModeBanner compact onLearnMoreClick={() => onNavigate('about')} />
+
+          <button
+            onClick={onOpenChat}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/40 text-blue-950 text-xs font-bold shadow-2xs transition-colors cursor-pointer"
+            title="Chat with n8n Postal AI Agent"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-600"></span>
+            </span>
+            <span>AI Chat</span>
+          </button>
 
           <button
             onClick={() => onNavigate('verify')}
