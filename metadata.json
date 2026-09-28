@@ -1,0 +1,6 @@
+{
+  "name": "PostalAI — Intelligent Postal Address & PIN Verification System",
+  "description": "AI-assisted postal address verification, PIN code consistency checking, and delivery post office identification platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
